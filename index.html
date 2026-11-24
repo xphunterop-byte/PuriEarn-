@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PuriEarn - Paisa Kamao</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#0f172a;color:#fff;padding-bottom:80px}
+.top{background:linear-gradient(135deg,#ff6b00,#ffcc00);padding:20px;color:#000;text-align:center;border-radius:0 0 20px 20px}
+.top h1{font-size:28px}
+.card{background:#1e293b;margin:12px;padding:16px;border-radius:15px}
+.card h3{color:#ffcc00;margin-bottom:8px}
+input,select{width:100%;padding:12px;margin:6px 0;border-radius:10px;border:none;outline:none}
+button{width:100%;padding:13px;border:none;border-radius:12px;font-weight:bold;font-size:16px;margin-top:8px;cursor:pointer}
+.btn-yellow{background:#ffcc00;color:#000}
+.btn-green{background:#22c55e;color:#fff}
+.btn-blue{background:#3b82f6;color:#fff}
+.btn-red{background:#ef4444;color:#fff}
+.task{background:#334155;padding:12px;border-radius:10px;margin-top:10px;display:flex;justify-content:space-between;align-items:center}
+.task button{width:auto;padding:8px 14px;background:#22c55e;color:#fff}
+.flex{display:flex;gap:10px}
+.flex button{flex:1}
+.small{font-size:13px;color:#cbd5e1;margin-top:6px}
+.bal{font-size:32px;font-weight:bold;color:#22c55e}
+.hide{display:none}
+.codebox{background:#000;padding:12px;border-radius:10px;text-align:center;font-size:20px;letter-spacing:2px;margin:8px 0;border:1px dashed #ffcc00}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#1e293b;display:flex;padding:10px}
+.nav button{background:none;color:#fff;flex:1;font-size:13px}
+.nav button.active{color:#ffcc00}
+</style>
+</head>
+<body>
+
+<div id="signupPage">
+<div class="top"><h1>🔥 PuriEarn 🔥</h1><p>Roz Kamao, Roz Jeeto</p></div>
+<div class="card">
+<h3>📝 Sign-Up Karo - ₹20 Bonus Pao</h3>
+<input id="sName" placeholder="Tumhara Naam">
+<input id="sPhone" placeholder="Mobile Number (10 digit)" type="number">
+<input id="sRefer" placeholder="Referral Code (Agar hai to)">
+<button class="btn-yellow" onclick="signup()">Sign-Up & ₹20 Pao</button>
+<p class="small">Sign-up karte hi ₹20 bonus milega. Referral code dala to aur ₹10 extra!</p>
+</div>
+<div class="card"><h3>🎁 Redeem Code</h3><p class="small">Try Karo: PURI50, WELCOME100, PURI2026</p></div>
+</div>
+
+<div id="mainPage" class="hide">
+<div class="top"><h1>🔥 PuriEarn</h1><p id="welcomeName">Hi User</p><div class="bal" id="balance">₹0</div><p>Wallet Balance</p></div>
+
+<div id="homeTab">
+<div class="card"><h3>💰 Daily Tasks</h3>
+<div class="task"><span>📱 App Download - ₹20</span><button onclick="doTask(20,'App Download')">Start</button></div>
+<div class="task"><span>🎥 Video Dekho - ₹10</span><button onclick="doTask(10,'Video Dekho')">Start</button></div>
+<div class="task"><span>🌐 Website Visit - ₹5</span><button onclick="doTask(5,'Website Visit')">Start</button></div>
+<div class="task"><span>📢 Telegram Join - ₹15</span><button onclick="doTask(15,'Telegram Join')">Start</button></div>
+<div class="task"><span>⭐ App Ko 5 Star Do - ₹25</span><button onclick="doTask(25,'5 Star Rating')">Start</button></div>
+</div>
+
+<div class="card"><h3>🎁 Redeem Code / Gift Card</h3>
+<input id="redeemInput" placeholder="Code likho - PURI50, WELCOME100">
+<button class="btn-blue" onclick="redeem()">Redeem Karo</button>
+<p class="small">Gift Card Code bhi yahi dalo. Har code 1 baar hi chalega.</p></div>
+
+<div class="card"><h3>🏆 Top Earners</h3><p>1. Rahul - Puri - ₹850<br>2. Priya - Bhubaneswar - ₹720<br>3. Amit - Cuttack - ₹650</p></div>
+</div>
+
+<div id="referTab" class="hide">
+<div class="card"><h3>👥 Refer & Earn ₹50</h3><p>Apna code share karo, dost join karega to tumko ₹50, usko ₹20 milega!</p>
+<div class="codebox" id="myReferCode">PURI1234</div>
+<button class="btn-green" onclick="copyRefer()">Copy Refer Code</button>
+<button class="btn-blue" onclick="shareRefer()">WhatsApp Pe Share Karo</button>
+<p class="small" id="referCount">Total Refer: 0 | Refer Earning: ₹0</p></div>
+</div>
+
+<div id="profileTab" class="hide">
+<div class="card"><h3>👤 My Profile</h3>
+<p>Naam: <b id="pName"></b></p><p>Mobile: <b id="pPhone"></b></p><p>My Refer Code: <b id="pRefer"></b></p><p>Total Earning: <b id="pTotal"></b></p><p>Tasks Done: <b id="pTasks"></b></p>
+<input id="editName" placeholder="Naya Naam">
+<button class="btn-yellow" onclick="updateName()">Naam Update Karo</button>
+<button class="btn-red" onclick="logout()">Logout</button></div>
+</div>
+
+<div id="withdrawTab" class="hide">
+<div class="card"><h3>💸 Withdraw - Min ₹50</h3><p>Balance: <b id="wBal"></b></p>
+<select id="wMethod"><option value="UPI">UPI</option><option value="【entity-Paytm¦canonical_name=Paytm】">【entity-Paytm¦canonical_name=Paytm】</option><option value="【entity-PhonePe¦canonical_name=PhonePe】">【entity-PhonePe¦canonical_name=PhonePe】</option><option value="【entity-Google Pay¦canonical_name=Google Pay】">【entity-Google Pay¦canonical_name=Google Pay】</option></select>
+<input id="wNumber" placeholder="UPI ID / 【entity-Paytm¦canonical_name=Paytm】 Number">
+<input id="wAmount" placeholder="Amount - Min 50" type="number">
+<button class="btn-green" onclick="withdraw()">Withdraw Request Karo</button>
+<p class="small" id="wMsg">Withdraw 24 ghante me aayega. Min withdraw ₹50 hai.</p></div>
+<div class="card"><h3>📜 Withdraw History</h3><div id="wHistory">Abhi koi withdraw nahi hai.</div></div>
+</div>
+
+<div class="nav">
+<button onclick="showTab('homeTab',this)" class="active">🏠 Home</button>
+<button onclick="showTab('referTab',this)">👥 Refer</button>
+<button onclick="showTab('profileTab',this)">👤 Profile</button>
+<button onclick="showTab('withdrawTab',this)">💸 Withdraw</button>
+</div>
+</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem('puriearn_user') || 'null');
+let usedCodes = JSON.parse(localStorage.getItem('puriearn_codes') || '[]');
+let codes = { 'PURI50':50, 'WELCOME100':100, 'PURI2026':30, 'GIFT50':50, 'DIWALI100':100 };
+
+if(user){ showMain(); }
+
+function signup(){
+let name=document.getElementById('sName').value.trim();
+let phone=document.getElementById('sPhone').value.trim();
+let ref=document.getElementById('sRefer').value.trim().toUpperCase();
+if(!name || phone.length<10){ alert('Naam aur sahi Mobile Number dalo!'); return; }
+let myCode = 'PURI' + Math.floor(1000+Math.random()*9000);
+let bonus = 20;
+if(ref){ bonus+=10; alert('Referral Code lag gaya! +₹10 extra mila'); }
+user={name:name, phone:phone, balance:bonus, total:bonus, tasks:0, refer:0, referEarn:0, myCode:myCode, history:[]};
+localStorage.setItem('puriearn_user', JSON.stringify(user));
+alert('Welcome '+name+'! ₹'+bonus+' Bonus mil gaya!');
+showMain();
+}
+function showMain(){
+document.getElementById('signupPage').classList.add('hide');
+document.getElementById('mainPage').classList.remove('hide');
+updateUI();
+}
+function updateUI(){
+document.getElementById('welcomeName').innerText='Hi '+user.name+' 👋';
+document.getElementById('balance').innerText='₹'+user.balance;
+document.getElementById('myReferCode').innerText=user.myCode;
+document.getElementById('pName').innerText=user.name;
+document.getElementById('pPhone').innerText=user.phone;
+document.getElementById('pRefer').innerText=user.myCode;
+document.getElementById('pTotal').innerText='₹'+user.total;
+document.getElementById('pTasks').innerText=user.tasks;
+document.getElementById('referCount').innerText='Total Refer: '+user.refer+' | Refer Earning: ₹'+user.referEarn;
+document.getElementById('wBal').innerText='₹'+user.balance;
+document.getElementById('wHistory').innerHTML = user.history.length? user.history.map(h=>'<p>'+h+'</p>').join('') : 'Abhi koi withdraw nahi hai.';
+localStorage.setItem('puriearn_user', JSON.stringify(user));
+}
+function doTask(amt, name){
+user.balance+=amt; user.total+=amt; user.tasks++;
+updateUI(); alert(name+' complete! ₹'+amt+' mil gaya! 🎉');
+}
+function redeem(){
+let c=document.getElementById('redeemInput').value.trim().toUpperCase();
+if(!c){ alert('Code dalo!'); return; }
+if(usedCodes.includes(c)){ alert('Ye code pehle use ho chuka hai!'); return; }
+if(codes[c]){
+user.balance+=codes[c]; user.total+=codes[c]; usedCodes.push(c);
+localStorage.setItem('puriearn_codes', JSON.stringify(usedCodes));
+updateUI(); alert('Wah! ₹'+codes[c]+' mil gaya! 🎁');
+} else { alert('Galat Code hai! Try: PURI50'); }
+}
+function copyRefer(){
+navigator.clipboard.writeText(user.myCode); alert('Refer Code Copy ho gaya: '+user.myCode);
+}
+function shareRefer(){
+let txt='Maine PuriEarn se paisa kamaya! Tu bhi join kar, mera code '+user.myCode+' use kar, ₹20 bonus milega! Link: https://xphunterop-byte.github.io/PuriEarn/';
+window.open('https://wa.me/?text='+encodeURIComponent(txt));
+}
+function updateName(){
+let n=document.getElementById('editName').value.trim();
+if(n){ user.name=n; updateUI(); alert('Naam update ho gaya!'); }
+}
+function withdraw(){
+let method=document.getElementById('wMethod').value;
+let num=document.getElementById('wNumber').value.trim();
+let amt=parseInt(document.getElementById('wAmount').value);
+if(!num){ alert('UPI / Paytm Number dalo!'); return; }
+if(!amt || amt<50){ alert('Min Withdraw ₹50 hai!'); return; }
+if(amt>user.balance){ alert('Balance kam hai! Balance: ₹'+user.balance); return; }
+user.balance-=amt;
+user.history.unshift(amt+' - '+method+' - '+num+' - Pending');
+updateUI();
+document.getElementById('wMsg').innerText='Withdraw Request Success! ₹'+amt+' 24 ghante me '+method+' pe aayega.';
+alert('Withdraw Request Success! ₹'+amt);
+}
+function logout(){ if(confirm('Logout karna hai?')){ localStorage.removeItem('puriearn_user'); location.reload(); } }
+function showTab(id,btn){
+['homeTab','referTab','profileTab','withdrawTab'].forEach(t=>document.getElementById(t).classList.add('hide'));
+document.getElementById(id).classList.remove('hide');
+document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+}
+</script>
+</body>
+  </html>
